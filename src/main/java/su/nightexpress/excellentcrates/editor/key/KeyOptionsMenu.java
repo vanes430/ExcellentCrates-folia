@@ -44,10 +44,10 @@ public class KeyOptionsMenu extends LinkedMenu<CratesPlugin, CrateKey> {
             UIUtils.openConfirmation(player, Confirmation.builder()
                 .onAccept((viewer1, event1) -> {
                     plugin.getKeyManager().delete(key);
-                    plugin.runTask(task -> plugin.getEditorManager().openKeyList(player));
+                    plugin.runFoliaTask(() -> plugin.getEditorManager().openKeyList(player));
                 })
                 .onReturn((viewer1, event1) -> {
-                    plugin.runTask(task -> plugin.getEditorManager().openKeyOptions(player, key));
+                    plugin.runFoliaTask(() -> plugin.getEditorManager().openKeyOptions(player, key));
                 })
                 .build());
         });

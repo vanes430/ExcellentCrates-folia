@@ -18,6 +18,7 @@ import su.nightexpress.excellentcrates.user.UserManager;
 import su.nightexpress.nightcore.NightPlugin;
 import su.nightexpress.nightcore.command.experimental.ImprovedCommands;
 import su.nightexpress.nightcore.config.PluginDetails;
+import su.nightexpress.nightcore.lib.folialib.FoliaLib;
 import su.nightexpress.nightcore.util.Plugins;
 
 import java.util.Optional;
@@ -44,6 +45,22 @@ public class CratesPlugin extends NightPlugin implements ImprovedCommands {
             .setConfigClass(Config.class)
             .setLangClass(Lang.class)
             .setPermissionsClass(Perms.class);
+    }
+
+    public void runFoliaTask(@NotNull Runnable runnable) {
+        this.getFoliaLib().getImpl().runNextTick(task -> runnable.run());
+    }
+
+    public void runFoliaTaskAsync(@NotNull Runnable runnable) {
+        this.getFoliaLib().getImpl().runAsync(task -> runnable.run());
+    }
+
+    public void runFoliaTaskLater(@NotNull Runnable runnable, long delay) {
+        this.getFoliaLib().getImpl().runLater(task -> runnable.run(), delay * 50L, java.util.concurrent.TimeUnit.MILLISECONDS);
+    }
+
+    public void runFoliaTaskTimer(@NotNull Runnable runnable, long delay, long period) {
+        this.getFoliaLib().getImpl().runTimer(task -> runnable.run(), delay * 50L, period * 50L, java.util.concurrent.TimeUnit.MILLISECONDS);
     }
 
     @Override

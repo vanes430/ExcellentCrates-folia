@@ -60,10 +60,10 @@ public class RewardOptionsMenu extends LinkedMenu<CratesPlugin, Reward> {
                 .onAccept((viewer1, event1) -> {
                     crate.removeReward(reward);
                     crate.saveRewards();
-                    plugin.runTask(task -> plugin.getEditorManager().openRewardList(player, crate));
+                    plugin.runFoliaTask(() -> plugin.getEditorManager().openRewardList(player, crate));
                 })
                 .onReturn((viewer1, event1) -> {
-                    plugin.runTask(task -> plugin.getEditorManager().openRewardOptions(player, reward));
+                    plugin.runFoliaTask(() -> plugin.getEditorManager().openRewardOptions(player, reward));
                 })
                 .build());
         });

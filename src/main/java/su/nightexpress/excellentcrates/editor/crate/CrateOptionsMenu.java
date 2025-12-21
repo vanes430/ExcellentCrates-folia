@@ -51,10 +51,10 @@ public class CrateOptionsMenu extends LinkedMenu<CratesPlugin, Crate> {
             UIUtils.openConfirmation(player, Confirmation.builder()
                 .onAccept((viewer1, event1) -> {
                     plugin.getCrateManager().delete(crate);
-                    plugin.runTask(task -> plugin.getEditorManager().openCrateList(player));
+                    plugin.runFoliaTask(() -> plugin.getEditorManager().openCrateList(player));
                 })
                 .onReturn((viewer1, event1) -> {
-                    plugin.runTask(task -> plugin.getEditorManager().openOptionsMenu(player, crate));
+                    plugin.runFoliaTask(() -> plugin.getEditorManager().openOptionsMenu(player, crate));
                 })
                 .build());
         });
