@@ -51,6 +51,10 @@ public class CratesPlugin extends NightPlugin implements ImprovedCommands {
         this.getFoliaLib().getImpl().runNextTick(task -> runnable.run());
     }
 
+    public void runTaskAtPlayer(@NotNull org.bukkit.entity.Player player, @NotNull Runnable runnable) {
+        this.getFoliaLib().getScheduler().runAtEntity(player, task -> runnable.run());
+    }
+
     public void runFoliaTaskAsync(@NotNull Runnable runnable) {
         this.getFoliaLib().getImpl().runAsync(task -> runnable.run());
     }

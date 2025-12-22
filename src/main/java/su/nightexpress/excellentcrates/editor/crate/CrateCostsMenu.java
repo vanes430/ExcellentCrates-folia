@@ -87,7 +87,7 @@ public class CrateCostsMenu extends LinkedMenu<CratesPlugin, Crate> implements F
                         crate.saveSettings();
                     })
                     .onReturn((viewer2, event1) -> {
-                        plugin.runFoliaTask(() -> plugin.getEditorManager().openCostsMenu(player, crate));
+                        plugin.runTaskAtPlayer(player, () -> plugin.getEditorManager().openCostsMenu(player, crate));
                     })
                     .returnOnAccept(true)
                     .build());
