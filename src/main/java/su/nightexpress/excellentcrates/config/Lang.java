@@ -94,7 +94,7 @@ public class Lang extends CoreLang {
     public static final LangText COMMAND_KEY_SET_NOTIFY = LangText.of("Command.Key.Set.Notify",
         LIGHT_GRAY.wrap("Your " + LIGHT_YELLOW.wrap(KEY_NAME) + "'s amount has been changed to " + LIGHT_YELLOW.wrap("x" + GENERIC_AMOUNT) + "."));
 
-
+    public static final su.nightexpress.nightcore.locale.entry.EnumLocale<su.nightexpress.excellentcrates.api.crate.RewardType> REWARD_TYPE = su.nightexpress.nightcore.locale.LangEntry.builder("RewardType").enumeration(su.nightexpress.excellentcrates.api.crate.RewardType.class);
 
     public static final LangText COMMAND_KEY_INSPECT_LIST = LangText.of("Command.Key.Show.Format.List",
         TAG_NO_PREFIX,

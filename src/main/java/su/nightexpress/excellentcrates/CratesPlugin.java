@@ -14,6 +14,10 @@ import su.nightexpress.excellentcrates.hooks.impl.PlaceholderHook;
 import su.nightexpress.excellentcrates.key.KeyManager;
 import su.nightexpress.excellentcrates.opening.OpeningManager;
 import su.nightexpress.excellentcrates.opening.ProviderRegistry;
+import su.nightexpress.excellentcrates.crate.reward.RewardDialogs;
+import su.nightexpress.excellentcrates.dialog.DialogRegistry;
+import su.nightexpress.excellentcrates.dialog.reward.RewardCreationDialog;
+import su.nightexpress.excellentcrates.dialog.reward.RewardSortingDialog;
 import su.nightexpress.excellentcrates.user.UserManager;
 import su.nightexpress.nightcore.NightPlugin;
 import su.nightexpress.nightcore.command.experimental.ImprovedCommands;
@@ -35,6 +39,8 @@ public class CratesPlugin extends NightPlugin implements ImprovedCommands {
     private CrateManager    crateManager;
     //private MenuManager     menuManager;
     private EditorManager   editorManager;
+
+    private DialogRegistry  dialogRegistry;
 
     private CrateLogger     crateLogger;
 
@@ -108,6 +114,10 @@ public class CratesPlugin extends NightPlugin implements ImprovedCommands {
         this.crateManager = new CrateManager(this);
         this.crateManager.setup();
 
+        this.dialogRegistry = new DialogRegistry(this);
+        this.dialogRegistry.register(RewardDialogs.CREATION, () -> new RewardCreationDialog(this));
+        this.dialogRegistry.register(RewardDialogs.SORTING, RewardSortingDialog::new);
+
 //        this.menuManager = new MenuManager(this);
 //        this.menuManager.setup();
 
@@ -119,6 +129,11 @@ public class CratesPlugin extends NightPlugin implements ImprovedCommands {
         if (Plugins.hasPlaceholderAPI()) {
             PlaceholderHook.setup(this);
         }
+    }
+
+    @NotNull
+    public DialogRegistry getDialogRegistry() {
+        return this.dialogRegistry;
     }
 
     @Override

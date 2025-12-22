@@ -45,6 +45,8 @@ public class Placeholders extends su.nightexpress.nightcore.util.Placeholders {
     public static final String GENERIC_MODE    = "%mode%";
     public static final String GENERIC_TYPE    = "%type%";
     public static final String GENERIC_REWARDS = "%rewards%";
+    public static final String GENERIC_STATE   = "%state%";
+    public static final String GENERIC_INSPECTION = "%inspection%";
 
     public static final String RARITY_ID          = "%rarity_id%";
     public static final String RARITY_NAME        = "%rarity_name%";
