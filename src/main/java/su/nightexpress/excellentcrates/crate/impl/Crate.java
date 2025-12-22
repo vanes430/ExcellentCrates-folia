@@ -146,12 +146,15 @@ public class Crate extends AbstractFileData<CratesPlugin> {
         this.setKeyIds(config.getStringSet("Key.Ids"));
 
         this.blockPositions.addAll(config.getStringList("Block.Positions").stream().map(WorldPos::deserialize).toList());
+        // Validation disabled for Folia compatibility - accessing blocks during onLoad is unsafe
+        /*
         if (!Config.isCrateInAirBlocksAllowed()) {
             this.blockPositions.removeIf(pos -> {
                 Block block = pos.toBlock();
                 return block != null && block.isEmpty();
             });
         }
+        */
 
         this.setPushbackEnabled(config.getBoolean("Block.Pushback.Enabled"));
         this.setHologramEnabled(config.getBoolean("Block.Hologram.Enabled"));
