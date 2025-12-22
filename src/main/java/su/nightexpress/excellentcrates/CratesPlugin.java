@@ -100,11 +100,6 @@ public class CratesPlugin extends NightPlugin implements ImprovedCommands {
         this.userManager = new UserManager(this, this.dataHandler);
         this.userManager.setup();
 
-        if (Config.HOLOGRAMS_ENABLED.get()) {
-            this.hologramManager = new HologramManager(this);
-            this.hologramManager.setup();
-        }
-
         this.openingManager = new OpeningManager(this);
         this.openingManager.setup();
 
@@ -113,6 +108,11 @@ public class CratesPlugin extends NightPlugin implements ImprovedCommands {
 
         this.crateManager = new CrateManager(this);
         this.crateManager.setup();
+
+        if (Config.HOLOGRAMS_ENABLED.get()) {
+            this.hologramManager = new HologramManager(this);
+            this.hologramManager.setup();
+        }
 
         this.dialogRegistry = new DialogRegistry(this);
         this.dialogRegistry.register(RewardDialogs.CREATION, () -> new RewardCreationDialog(this));
