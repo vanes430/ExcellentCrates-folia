@@ -159,7 +159,7 @@ public class CrateOptionsMenu extends LinkedMenu<CratesPlugin, Crate> {
                         crate.saveSettings();
                     }
                     return true;
-                }).setSuggestions(plugin.getKeyManager().getKeyIds(), false));
+                }).setSuggestions(plugin.getKeyManager().getKeyIds(), true));
             }
             else if (event.isRightClick()) {
                 crate.setKeyIds(new HashSet<>());
