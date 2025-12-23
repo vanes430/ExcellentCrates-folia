@@ -1,0 +1,38 @@
+name: Sync Dependents
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  trigger-updates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync Repositories
+        env:
+          GH_TOKEN: ${{ secrets.PAT }} 
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "Error: PAT secret is not set."
+            exit 1
+          fi
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          REPOS=(
+            "vanes430/economy-bridge-folia"
+          )
+
+          for REPO in "${REPOS[@]}"; do
+            echo "Processing $REPO..."
+            git clone "https://oauth2:$GH_TOKEN@github.com/$REPO.git" repo_dir
+            cd repo_dir
+            echo "Syncing with ExcellentCrates release at $(date)" > .commit-sync
+            git add .commit-sync
+            git commit -m "chore: sync with ExcellentCrates release"
+            git push origin HEAD:master
+            cd ..
+            rm -rf repo_dir
+          done
