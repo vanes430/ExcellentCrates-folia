@@ -12,30 +12,20 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     steps:
-      - name: Sync Repositories
+      - name: Trigger Dependent Workflows
         env:
-          GH_TOKEN: ${{ secrets.PAT }} 
+          GH_TOKEN: ${{ secrets.PAT }}
         run: |
           if [ -z "$GH_TOKEN" ]; then
             echo "Error: PAT secret is not set."
             exit 1
           fi
 
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           REPOS=(
             "vanes430/economy-bridge-folia"
           )
 
           for REPO in "${REPOS[@]}"; do
-            echo "Processing $REPO..."
-            git clone "https://oauth2:$GH_TOKEN@github.com/$REPO.git" repo_dir
-            cd repo_dir
-            echo "Syncing with ExcellentCrates release at $(date)" > .commit-sync
-            git add .commit-sync
-            git commit -m "chore: sync with ExcellentCrates release"
-            git push origin HEAD:master
-            cd ..
-            rm -rf repo_dir
+            echo "Triggering workflow for $REPO..."
+            gh workflow run build.yml --repo "$REPO" || echo "Failed to trigger $REPO"
           done
