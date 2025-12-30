@@ -127,12 +127,12 @@ public class RewardListMenu extends LinkedMenu<CratesPlugin, RewardListMenu.Data
             event.getView().setCursor(null);
             Players.addItem(player, copy);
 
-            this.plugin.getDialogRegistry().show(player, RewardDialogs.CREATION, new RewardCreationDialog.Data(data.crate, copy), () -> this.runNextTick(() -> this.flush(player)));
+            this.plugin.getDialogRegistry().show(player, RewardDialogs.CREATION, new RewardCreationDialog.Data(data.crate, copy), () -> this.plugin.runTaskAtPlayer(player, () -> this.flush(player)));
         });
 
         this.addItem(Material.COMPARATOR, LOCALE_SORTING, 38, (viewer, event, data) -> {
             Player player = viewer.getPlayer();
-            this.plugin.getDialogRegistry().show(player, RewardDialogs.SORTING, data.crate, () -> this.runNextTick(() -> this.flush(player)));
+            this.plugin.getDialogRegistry().show(player, RewardDialogs.SORTING, data.crate, () -> this.plugin.runTaskAtPlayer(player, () -> this.flush(player)));
         });
     }
 
@@ -178,7 +178,7 @@ public class RewardListMenu extends LinkedMenu<CratesPlugin, RewardListMenu.Data
                 }
                 crate.setRewards(all);
                 crate.saveRewards();
-                this.runNextTick(() -> this.flush(viewer1));
+                this.plugin.runTaskAtPlayer(viewer1.getPlayer(), () -> this.flush(viewer1));
                 return;
             }
 
@@ -247,7 +247,7 @@ public class RewardListMenu extends LinkedMenu<CratesPlugin, RewardListMenu.Data
         Reward reward = RewardFactory.wizardCreation(this.plugin, data.crate, itemStack, data.massModeType, provider);
         data.crate.addReward(reward);
         data.crate.saveRewards();
-        this.runNextTick(() -> this.flush(viewer));
+        this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
     }
 }
 

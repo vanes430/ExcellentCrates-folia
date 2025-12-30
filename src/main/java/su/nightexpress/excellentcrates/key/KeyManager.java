@@ -213,14 +213,16 @@ public class KeyManager extends AbstractManager<CratesPlugin> {
 
     public void giveKeysOnHold(@NotNull Player player) {
         CrateUser user = plugin.getUserManager().getOrFetch(player);
-        user.getKeysOnHold().forEach((keyId, amount) -> {
-            CrateKey crateKey = this.getKeyById(keyId);
-            if (crateKey == null) return;
+        this.plugin.runTaskAtPlayer(player, () -> {
+            user.getKeysOnHold().forEach((keyId, amount) -> {
+                CrateKey crateKey = this.getKeyById(keyId);
+                if (crateKey == null) return;
 
-            this.giveKey(player, crateKey, amount);
+                this.giveKey(player, crateKey, amount);
+            });
+            user.cleanKeysOnHold();
+            this.plugin.getUserManager().save(user);
         });
-        user.cleanKeysOnHold();
-        this.plugin.getUserManager().save(user);
     }
 
     public void setKey(@NotNull CrateUser user, @NotNull CrateKey key, int amount) {

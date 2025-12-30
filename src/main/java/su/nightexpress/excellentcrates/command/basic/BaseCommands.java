@@ -194,14 +194,17 @@ public class BaseCommands {
         Crate crate = arguments.getArgument(CommandArguments.CRATE, Crate.class);
         int amount = arguments.getIntArgument(CommandArguments.AMOUNT, 1);
 
-        plugin.getCrateManager().giveCrateItem(player, crate, amount);
+        plugin.runTaskAtPlayer(player, () -> {
+            plugin.getCrateManager().giveCrateItem(player, crate, amount);
 
-        if (!arguments.hasFlag(CommandFlags.SILENT)) {
-            Lang.COMMAND_GIVE_NOTIFY.getMessage().send(player, replacer -> replacer
-                .replace(Placeholders.GENERIC_AMOUNT, amount)
-                .replace(crate.replacePlaceholders())
-            );
-        }
+            if (!arguments.hasFlag(CommandFlags.SILENT)) {
+                Lang.COMMAND_GIVE_NOTIFY.getMessage().send(player, replacer -> replacer
+                    .replace(Placeholders.GENERIC_AMOUNT, amount)
+                    .replace(crate.replacePlaceholders())
+                );
+            }
+        });
+
         if (!arguments.hasFlag(CommandFlags.SILENT_FEEDBACK) && context.getSender() != player) {
             Lang.COMMAND_GIVE_DONE.getMessage().send(context.getSender(), replacer -> replacer
                 .replace(Placeholders.forPlayer(player))
@@ -308,14 +311,16 @@ public class BaseCommands {
         Players.getOnline().forEach(player -> {
             if (!player.hasPermission(Perms.INCLUDE_KEY_GIVEALL)) return;
 
-            plugin.getKeyManager().giveKey(player, key, amount);
+            plugin.runTaskAtPlayer(player, () -> {
+                plugin.getKeyManager().giveKey(player, key, amount);
 
-            if (!silent) {
-                Lang.COMMAND_KEY_GIVE_NOTIFY.getMessage().send(player, replacer -> replacer
-                    .replace(Placeholders.GENERIC_AMOUNT, amount)
-                    .replace(key.replacePlaceholders())
-                );
-            }
+                if (!silent) {
+                    Lang.COMMAND_KEY_GIVE_NOTIFY.getMessage().send(player, replacer -> replacer
+                        .replace(Placeholders.GENERIC_AMOUNT, amount)
+                        .replace(key.replacePlaceholders())
+                    );
+                }
+            });
         });
 
         if (!arguments.hasFlag(CommandFlags.SILENT_FEEDBACK)) {
@@ -361,16 +366,22 @@ public class BaseCommands {
                 return;
             }
 
-            plugin.getKeyManager().giveKey(user, key, amount);
-            plugin.getUserManager().save(user);
+            Runnable action = () -> {
+                plugin.getKeyManager().giveKey(user, key, amount);
+                plugin.getUserManager().save(user);
 
-            Player target = user.getPlayer();
-            if (target != null && !arguments.hasFlag(CommandFlags.SILENT)) {
-                Lang.COMMAND_KEY_GIVE_NOTIFY.getMessage().send(target, replacer -> replacer
-                    .replace(Placeholders.GENERIC_AMOUNT, amount)
-                    .replace(key.replacePlaceholders())
-                );
-            }
+                Player target = user.getPlayer();
+                if (target != null && !arguments.hasFlag(CommandFlags.SILENT)) {
+                    Lang.COMMAND_KEY_GIVE_NOTIFY.getMessage().send(target, replacer -> replacer
+                        .replace(Placeholders.GENERIC_AMOUNT, amount)
+                        .replace(key.replacePlaceholders())
+                    );
+                }
+            };
+
+            Player player = user.getPlayer();
+            if (player != null) plugin.runTaskAtPlayer(player, action);
+            else action.run();
 
             if (!arguments.hasFlag(CommandFlags.SILENT_FEEDBACK)) {
                 Lang.COMMAND_KEY_GIVE_DONE.getMessage().send(context.getSender(), replacer -> replacer

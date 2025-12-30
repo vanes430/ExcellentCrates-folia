@@ -51,7 +51,7 @@ public class RewardContentMenu extends LinkedMenu<CratesPlugin, ItemReward> {
         if (result.isInventory()) {
             if (!ItemTypes.isCustom(copy)) {
                 this.addItem(reward, ItemTypes.vanilla(copy));
-                this.runNextTick(() -> this.flush(viewer));
+                this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
             }
             else {
                 this.runNextTick(() -> plugin.getEditorManager().openItemTypeMenu(player, copy, provider -> {
@@ -71,7 +71,7 @@ public class RewardContentMenu extends LinkedMenu<CratesPlugin, ItemReward> {
             int index = slot - 9;
             reward.getItems().remove(index);
             reward.getCrate().saveReward(reward);
-            this.runNextTick(() -> this.flush(viewer));
+            this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
         }
 
         clicked.setAmount(0);

@@ -97,7 +97,7 @@ public class CrateParticleMenu extends LinkedMenu<CratesPlugin, Crate> {
             }
             event.getView().setCursor(null);
             crate.saveSettings();
-            this.runNextTick(() -> this.flush(viewer));
+            this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
 
         }, ItemOptions.builder()
             .setVisibilityPolicy(viewer -> this.isMaterial(this.getLink(viewer).getEffectParticle()))

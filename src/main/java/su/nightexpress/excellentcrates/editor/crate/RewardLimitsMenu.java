@@ -39,7 +39,7 @@ public class RewardLimitsMenu extends LinkedMenu<CratesPlugin, RewardLimitsMenu.
             LimitValues values = data.values;
             values.setEnabled(!values.isEnabled());
             data.reward.save();
-            this.runNextTick(() -> this.flush(viewer));
+            this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
 
         }, ItemOptions.builder().setDisplayModifier((viewer, itemStack) -> {
             if (!this.getLink(viewer).values.isEnabled()) itemStack.setMaterial(Material.GRAY_DYE);
@@ -49,7 +49,7 @@ public class RewardLimitsMenu extends LinkedMenu<CratesPlugin, RewardLimitsMenu.
             if (event.isRightClick()) {
                 data.values.setAmount(-1);
                 data.reward.save();
-                this.runNextTick(() -> this.flush(viewer));
+                this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
                 return;
             }
 

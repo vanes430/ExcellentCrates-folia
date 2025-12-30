@@ -40,7 +40,7 @@ public class CrateMilestonesMenu extends LinkedMenu<CratesPlugin, Crate> impleme
             Milestone milestone = new Milestone(crate, "null", 0);
             crate.getMilestones().add(milestone);
             crate.saveMilestones();
-            this.runNextTick(() -> this.flush(viewer));
+            this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
         });
     }
 
@@ -65,7 +65,7 @@ public class CrateMilestonesMenu extends LinkedMenu<CratesPlugin, Crate> impleme
                 if (event.isRightClick()) {
                     crate.getMilestones().remove(milestone);
                     crate.saveMilestones();
-                    this.runNextTick(() -> this.flush(viewer));
+                    this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
                     return;
                 }
             }

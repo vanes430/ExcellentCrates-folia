@@ -126,7 +126,7 @@ public class CratePlacementMenu extends LinkedMenu<CratesPlugin, Crate> {
 
     private void saveAndFlush(@NotNull MenuViewer viewer, @NotNull Crate crate) {
         crate.saveSettings();
-        this.runNextTick(() -> this.flush(viewer));
+        this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
     }
 
     @Override

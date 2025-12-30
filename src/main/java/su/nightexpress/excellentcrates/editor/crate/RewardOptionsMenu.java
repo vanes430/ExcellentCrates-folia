@@ -250,7 +250,7 @@ public class RewardOptionsMenu extends LinkedMenu<CratesPlugin, Reward> {
 
     private void saveAndFlush(@NotNull MenuViewer viewer, @NotNull Reward reward) {
         reward.save();
-        this.runNextTick(() -> this.flush(viewer));
+        this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
     }
 
     @Override

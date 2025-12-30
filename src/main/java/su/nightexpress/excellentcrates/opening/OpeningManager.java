@@ -152,7 +152,10 @@ public class OpeningManager extends AbstractManager<CratesPlugin> {
     }
 
     public void tickOpenings() {
-        this.getOpenings().forEach(Opening::tick);
+        this.getOpeningByPlayerIdMap().values().forEach(opening -> {
+            Player player = opening.getPlayer();
+            this.plugin.runTaskAtPlayer(player, opening::tick);
+        });
     }
 
     public boolean isOpening(@NotNull Player player) {
@@ -191,8 +194,10 @@ public class OpeningManager extends AbstractManager<CratesPlugin> {
     public void startOpening(@NotNull Player player, @NotNull Opening opening, boolean instaRoll) {
         this.openingByPlayerMap.putIfAbsent(player.getUniqueId(), opening);
 
-        opening.start(); // Start ticking
+        this.plugin.runTaskAtPlayer(player, () -> {
+            opening.start(); // Start ticking
 
-        if (instaRoll) opening.instaRoll();
+            if (instaRoll) opening.instaRoll();
+        });
     }
 }

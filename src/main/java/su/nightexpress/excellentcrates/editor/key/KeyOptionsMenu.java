@@ -108,7 +108,7 @@ public class KeyOptionsMenu extends LinkedMenu<CratesPlugin, CrateKey> {
 
     private void saveAndFlush(@NotNull MenuViewer viewer) {
         this.getLink(viewer).save();
-        this.runNextTick(() -> this.flush(viewer));
+        this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
     }
 
     @Override

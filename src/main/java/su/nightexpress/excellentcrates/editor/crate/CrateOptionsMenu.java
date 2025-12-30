@@ -218,7 +218,7 @@ public class CrateOptionsMenu extends LinkedMenu<CratesPlugin, Crate> {
             if (event.isRightClick()) {
                 crate.setMilestonesRepeatable(!crate.isMilestonesRepeatable());
                 crate.saveMilestones();
-                this.runNextTick(() -> this.flush(viewer));
+                this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
                 return;
             }
 
@@ -240,7 +240,7 @@ public class CrateOptionsMenu extends LinkedMenu<CratesPlugin, Crate> {
 
     private void saveAndFlush(@NotNull MenuViewer viewer, @NotNull Crate crate) {
         crate.saveSettings();
-        this.runNextTick(() -> this.flush(viewer));
+        this.plugin.runTaskAtPlayer(viewer.getPlayer(), () -> this.flush(viewer));
     }
 
     @Override
